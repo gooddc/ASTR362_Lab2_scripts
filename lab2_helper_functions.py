@@ -28,7 +28,7 @@ def load_fits(filename,n=1):
 def implot(image,figsize=(15,13),cmap='gray_r',scale=0.5,colorbar=False,header=None,wcs=None,**kwargs):
     '''
     Plot an astronomical image, setting default options and easy tweaking of parameters
-    
+    This function is directly from the Yale Astro 330 course book by Imad Pasha and Marla Geha (2021 and following).    
     Parameters
     ----------
     image: array_like
