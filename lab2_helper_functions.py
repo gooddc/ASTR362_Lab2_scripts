@@ -1,29 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from astropy.io import fits
-
-
-def load_fits(filename,n=1):
-    '''
-    Load a fits file containing a single dataset; output data
-    Input
-    ---
-    filename: a fits file
-    n: number of datasets
-    
-    Ouput
-    ----
-    header: Fits header
-    data: Fits data
-
-    '''
-    foo = fits.open(filename)
-    data = foo[0].data
-    header = foo[0].header
-    foo.close()
-    return data, header 
-
 
 def implot(image,figsize=(15,13),cmap='gray_r',scale=0.5,colorbar=False,header=None,wcs=None,**kwargs):
     '''
