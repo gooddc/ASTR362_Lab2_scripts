@@ -12,7 +12,10 @@ filename = sys.argv[1]
 center=[2328, 1761]
 
 # Load fits data and header
-my_data, my_header = l2.load_fits(filename)
+foo = fits.open(filename)
+my_data = foo[0].data
+my_header = foo[0].header
+foo.close()
 
 
 print("Click anywhere on the image to place a star and print coordinates.")
