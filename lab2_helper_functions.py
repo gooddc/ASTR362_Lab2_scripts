@@ -46,4 +46,40 @@ def implot(image,figsize=(15,13),cmap='gray_r',scale=0.5,colorbar=False,header=N
     if colorbar:
         cbar = plt.colorbar(im,ax=ax)
     return fig, ax
-            
+
+
+def psf(center, width_x, width_y, window, inner_rad=300):
+    '''
+    Evaluates a donut-shaped PSF -- created by combining a 2D ring with a 2D gaussian
+    
+    Input
+    ---
+    center: tuple 
+        position centroid
+    width_x: int
+        integer number of pixels to define total width of 2D Gaussian in x-dir
+    width_y: int
+        integer number of pixels to define total width of 2D Gaussian in y-dir
+    window: int
+        window size
+    inner_rad: int, optional
+        value for number of pixels in inner radius. Default: 300
+    
+    Ouput
+    ----
+    xx: array
+        positions in x around center with size 2x window
+    yy: array
+        positions in y around center with size 2x window
+    normalized: array
+        normalized Ring2D * Gauss2D point spread function
+    '''
+
+    loc=np.array(center)
+    xx, yy = np.meshgrid(np.arange(loc[0]-window,loc[0]+window),
+                     np.arange(loc[1]-window,loc[1]+window))
+    gauss = Gaussian2D.evaluate(xx,yy,amplitude=1,theta=0,x_mean=loc[0], y_mean=loc[1], x_stddev=width_x, y_stddev=width_y)
+    ring = Ring2D.evaluate(xx,yy,1,loc[0],loc[1],inner_rad,width=2*window)
+    combined = ring * gauss
+    normalized = combined / (np.sum(combined))
+    return xx, yy, normalized            
